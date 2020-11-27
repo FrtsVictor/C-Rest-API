@@ -1,0 +1,3 @@
+dotnet add package Microsoft.EntityFrameworkCore.InMemory
+
+https://www.youtube.com/watch?v=but7jqjopKM
