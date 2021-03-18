@@ -8,4 +8,8 @@
     <PackageReference Include="FluentValidation" Version="9.5.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\5 - UserManager.Core\UserManager.Core.csproj" />
+  </ItemGroup>
+
 </Project>
