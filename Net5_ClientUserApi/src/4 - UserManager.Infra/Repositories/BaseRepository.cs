@@ -35,7 +35,7 @@ namespace UserManager.Infra.Repositories
             return obj;
         }
 
-        public virtual async Task Remove(long id)
+        public virtual async Task<T> Remove(long id)
         {
             var obj = await Get(id);
 
@@ -43,6 +43,8 @@ namespace UserManager.Infra.Repositories
                 _context.Remove(obj); //evitar tacar exception
                 await _context.SaveChangesAsync();
             }
+            
+            return null;
         }
 
         public virtual async Task<T> Get(long id)
@@ -62,10 +64,6 @@ namespace UserManager.Infra.Repositories
                                  .ToListAsync();
         }
 
-        public Task<T> Remove(T obj)
-        {
-            throw new System.NotImplementedException();
-        }
     }
         
 }
