@@ -1,16 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using UserManager.Api.ViewModels;
+using UserManager.Domain.Entities;
+using UserManager.Infra.Context;
+using UserManager.Infra.Interfaces;
+using UserManager.Infra.Repositories;
+using UserManager.Services.DTO;
+using UserManager.Services.Interfaces;
+using UserManager.Services.Services;
 
 namespace UserManager.Api
 {
@@ -26,6 +29,28 @@ namespace UserManager.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            #region AutoMapper
+            //cria mapa entre user e user dto
+            var autoMapperConfig = new MapperConfiguration(configuration =>
+            {
+                configuration.CreateMap<User, UserDTO>().ReverseMap(); //mapear pros dois lados
+                configuration.CreateMap<CreateUserViewModel, UserDTO>().ReverseMap();
+            });
+
+            services.AddSingleton(autoMapperConfig.CreateMapper());
+            #endregion
+
+            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration.GetConnectionString("UserManagerContext")));
+
+            #region  DI
+            //scoped adiciona uma instancia unica por requisição
+            //transient uma instancia nova em cada ponto do codigo, uma instancia por requisição
+            // singleton uma só pra toda aplicação
+            //onde eu pedir IUserService, vai devolver uma instancia de UserService, por ex qd passo no construtor
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            #endregion
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
