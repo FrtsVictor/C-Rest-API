@@ -41,7 +41,7 @@ namespace UserManager.Api
             services.AddSingleton(autoMapperConfig.CreateMapper());
             #endregion
 
-            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration.GetConnectionString("UserManagerContext")));
+            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration.GetConnectionString("User_Api")));
 
             #region  DI
             //scoped adiciona uma instancia unica por requisição

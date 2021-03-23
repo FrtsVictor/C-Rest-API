@@ -9,23 +9,26 @@ using UserManager.Infra.Context;
 namespace UserManager.Infra.Migrations
 {
     [DbContext(typeof(UserManagerContext))]
-    [Migration("20210315114838_InitialMigration")]
+    [Migration("20210322115140_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.4")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
+
+            modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
+                .IncrementsBy(10);
 
             modelBuilder.Entity("UserManager.Domain.Entities.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
+                        .UseHiLo("EntityFrameworkHiLoSequence");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -35,8 +38,8 @@ namespace UserManager.Infra.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("VARCHAR(70)")
+                        .HasMaxLength(75)
+                        .HasColumnType("VARCHAR(75)")
                         .HasColumnName("name");
 
                     b.Property<string>("Password")
@@ -46,7 +49,10 @@ namespace UserManager.Infra.Migrations
                         .HasColumnName("password");
 
                     b.Property<string>("Username")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("VARCHAR(20)")
+                        .HasColumnName("username");
 
                     b.HasKey("Id");
 
