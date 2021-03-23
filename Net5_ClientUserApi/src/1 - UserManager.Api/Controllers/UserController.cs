@@ -23,7 +23,7 @@ namespace UserManager.Api.Controllers
         }
         
         [HttpPost]
-        [Route("/api/v1")] //sempre versionar rotas
+        [Route("/api/v1/users/create")] //sempre versionar rotas
         public async Task<IActionResult> Create ([FromBody] CreateUserViewModel userViewModel)
         {
             try
