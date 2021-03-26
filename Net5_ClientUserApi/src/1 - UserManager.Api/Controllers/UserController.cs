@@ -48,5 +48,80 @@ namespace UserManager.Api.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("api/v1/users/update")]
+        public async Task<IActionResult> Update([FromBody] UpdateUserViewModel userViewModel)
+        {
+            try
+            {
+                var userDTO = _mapper.Map<UserDTO>(userViewModel);
+                var userUpdated = await _userService.Update(userDTO);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "User updated sucessfully",
+                    Sucess = true,
+                    Data = userUpdated
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("/api/v1/users/remove/{id}")]
+        public async Task<IActionResult> Remove(long id)
+        {
+            try
+            {
+                await _userService.Remove(id);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "User removed sucessfully",
+                    Sucess = true,
+                    Data = null
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch(Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/get/{id}")]
+        public async Task<IActionResult> GetAction(long id)
+        {
+            try
+            {
+                var user = await _userService.Get(id);
+
+                if(user == null)
+                {
+                    return Ok(new ResultViewModel
+                    {
+                        Message = "User not found",
+                        Sucess = true,
+                        Data = null
+                    });
+                }
+
+                
+
+            }
+        }
+
     }
 }
