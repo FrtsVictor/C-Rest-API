@@ -13,9 +13,7 @@ namespace UserManager.Infra.Context
         { }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
-        {
-            optionsbuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Database=UserAPI;User Id=postgres;Password=123321");
-        }
+        { }
         //dbSet=users table
         public virtual DbSet<User> Users{ get; set;}
 
