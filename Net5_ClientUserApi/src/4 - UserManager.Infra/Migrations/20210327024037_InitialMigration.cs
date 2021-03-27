@@ -7,16 +7,12 @@ namespace UserManager.Infra.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateSequence(
-                name: "EntityFrameworkHiLoSequence",
-                incrementBy: 10);
-
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "BIGINT", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "VARCHAR(75)", maxLength: 75, nullable: false),
                     email = table.Column<string>(type: "VARCHAR(90)", maxLength: 90, nullable: false),
                     password = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: false),
@@ -32,9 +28,6 @@ namespace UserManager.Infra.Migrations
         {
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropSequence(
-                name: "EntityFrameworkHiLoSequence");
         }
     }
 }
