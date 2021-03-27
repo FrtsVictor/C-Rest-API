@@ -12,10 +12,9 @@ namespace UserManager.Infra.Mappings
 
             builder.HasKey(x=>x.Id);
 
-
             builder.Property(x=>x.Id)
-                .HasColumnType("BIGINT")
-                .UseHiLo();
+                .ValueGeneratedOnAdd()
+                .IsRequired();
 
             builder.Property(x=>x.Name)
                 .IsRequired()
