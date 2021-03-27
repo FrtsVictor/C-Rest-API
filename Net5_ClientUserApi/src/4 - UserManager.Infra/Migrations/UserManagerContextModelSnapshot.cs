@@ -18,15 +18,12 @@ namespace UserManager.Infra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
-                .IncrementsBy(10);
-
             modelBuilder.Entity("UserManager.Domain.Entities.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("BIGINT")
-                        .UseHiLo("EntityFrameworkHiLoSequence");
+                        .HasColumnType("bigint")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Email")
                         .IsRequired()

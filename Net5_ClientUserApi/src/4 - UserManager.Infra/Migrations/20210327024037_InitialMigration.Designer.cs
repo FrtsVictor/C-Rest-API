@@ -9,7 +9,7 @@ using UserManager.Infra.Context;
 namespace UserManager.Infra.Migrations
 {
     [DbContext(typeof(UserManagerContext))]
-    [Migration("20210322115140_InitialMigration")]
+    [Migration("20210327024037_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,15 +20,12 @@ namespace UserManager.Infra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.HasSequence("EntityFrameworkHiLoSequence")
-                .IncrementsBy(10);
-
             modelBuilder.Entity("UserManager.Domain.Entities.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("BIGINT")
-                        .UseHiLo("EntityFrameworkHiLoSequence");
+                        .HasColumnType("bigint")
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Email")
                         .IsRequired()

@@ -6,7 +6,7 @@ namespace UserManager.Api.ViewModels
     {
         [Required(ErrorMessage = "Id can't be empty")]
         [MinLength(1, ErrorMessage = "Id can't be less than 1")]
-        public int Id{ get; set; }
+        public long Id{ get; set; }
 
 
         [Required(ErrorMessage = "Name mandatory")]
