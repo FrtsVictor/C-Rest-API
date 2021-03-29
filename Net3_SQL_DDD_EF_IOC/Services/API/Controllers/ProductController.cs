@@ -35,7 +35,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _productApplicationService.Add(productDto);
-                return Ok("Product Registred Suvessfully!");
+                return Ok("Product registred successfully!");
             }
 
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _productApplicationService.Update(productDto);
-                return Ok("Product Updated Sucessfully!");
+                return Ok("Product updated sucessfully!");
             }
 
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _productApplicationService.Remove(productDto);
-                return Ok("Product Removed Sucessfully!");
+                return Ok("Product removed Successfully!");
             }
 
             catch (Exception ex)
