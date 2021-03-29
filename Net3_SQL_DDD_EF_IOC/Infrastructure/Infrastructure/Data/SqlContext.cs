@@ -13,6 +13,11 @@ namespace Infrastructure.API.Infrastructure.Data
         public SqlContext(DbContextOptions<SqlContext> options) : base(options)
         { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsbuilder)
+        { 
+            optionsbuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Database=Clients;User Id=postgres;Password=123321");
+        }        
+
         public DbSet<Client> Clients { get; set; }
         public DbSet<Product> Products { get; set; }
 
