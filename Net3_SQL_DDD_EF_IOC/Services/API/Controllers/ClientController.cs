@@ -35,7 +35,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _clientApplicationService.Add(clientDto);
-                return Ok("Client Registred Suvessfull!");
+                return Ok("Client registred successfully!");
             }
 
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _clientApplicationService.Update(clientDto);
-                return Ok("Client Updated Suvessfull!");
+                return Ok("Client updated successfully!");
             }
 
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace Services.API.Controllers
                 return NotFound();
                 
                 _clientApplicationService.Remove(clientDto);
-                return Ok("Client Removed Suvessfull!");
+                return Ok("Client removed successfully!");
             }
 
             catch (Exception ex)
