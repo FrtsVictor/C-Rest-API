@@ -15,7 +15,9 @@ namespace Application.API.Application.Mappers
                 Id = clientDto.Id,
                 Name = clientDto.Name,
                 LastName = clientDto.LastName,
-                Email = clientDto.Email
+                Email = clientDto.Email,
+                Username = clientDto.Username,
+                Password = clientDto.Password
             };
             return client;
         }
@@ -27,7 +29,9 @@ namespace Application.API.Application.Mappers
                 Id = client.Id,
                 Name = client.Name,
                 LastName = client.LastName,
-                Email = client.Email
+                Email = client.Email,
+                Username = client.Username,
+                Password = client.Password
             };
             return clientDto;
         }
@@ -39,7 +43,9 @@ namespace Application.API.Application.Mappers
                 Id = c.Id,
                 Name = c.Name,
                 LastName = c.LastName,
-                Email = c.Email
+                Email = c.Email,
+                Username = c.Username,
+                Password = c.Password
             });
             return dto;
         }
