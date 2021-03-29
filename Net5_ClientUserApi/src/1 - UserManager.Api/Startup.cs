@@ -17,6 +17,8 @@ using UserManager.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using UserManager.Api.Token;
+using System;
 
 namespace UserManager.Api
 {
@@ -37,7 +39,7 @@ namespace UserManager.Api
 
             var secretKey = Configuration["Jwt:Key"];
 
-            services.AddAuthentication(x => 
+            services.AddAuthentication(x =>  //adiciono autenticacao na api
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,15 +48,18 @@ namespace UserManager.Api
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                x.TokenValidationParameters = new TokenValidationParameters  //token vai validar os parametros
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)), //chave q pego no app settings
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
             });
+            
+            #endregion
 
+            
             #region AutoMapper
             //cria mapa entre user e user dto
             var autoMapperConfig = new MapperConfiguration(configuration =>
@@ -66,22 +71,69 @@ namespace UserManager.Api
             services.AddSingleton(autoMapperConfig.CreateMapper());
             #endregion
 
-            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration.GetConnectionString("User_Api")));
+           
 
             #region  DI
             //scoped adiciona uma instancia unica por requisição
             //transient uma instancia nova em cada ponto do codigo, uma instancia por requisição
             // singleton uma só pra toda aplicação
             //onde eu pedir IUserService, vai devolver uma instancia de UserService, por ex qd passo no construtor
+            services.AddSingleton(a => Configuration);
+            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration["User_Api"]));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
+
             #endregion
 
             services.AddControllers();
+           
+             #region Swagger
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserManager.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Users API",
+                    Version = "v1",
+                    Description = "Creating C# Api to learn DDD and C#",
+                    Contact = new OpenApiContact
+                    {
+                        Email = "victofreitas.job@gmail.com",
+                        Name = "Victor Freitas",
+                        Url = new Uri("https://github.com/FrtsVictor")
+                    },
+                });
+                
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Description = "You'll need use the <TOKEN>",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+                });
             });
+
+            #endregion
+
+            #region Cryptography
+
+            // services.AddRijndaelCryptography(Configuration["Cryptography"]);
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
