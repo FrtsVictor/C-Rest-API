@@ -78,8 +78,8 @@ namespace UserManager.Api
             //transient uma instancia nova em cada ponto do codigo, uma instancia por requisição
             // singleton uma só pra toda aplicação
             //onde eu pedir IUserService, vai devolver uma instancia de UserService, por ex qd passo no construtor
-            services.AddSingleton(a => Configuration);
-            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql(Configuration["User_Api"]));
+            //services.AddSingleton(a => Configuration);
+            services.AddDbContext<UserManagerContext>(options => options.UseNpgsql("Server=127.0.0.1;Port=5432;Database=UserAPI;User Id=postgres;Password=123321"));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
