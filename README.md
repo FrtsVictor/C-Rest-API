@@ -1,1 +1,1 @@
-Learning design patterns, C# and necore apis
+Learning design patterns, C# and netcore apis
