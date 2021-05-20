@@ -24,7 +24,7 @@ namespace UserManager.Api.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+        // [Authorize]
         [Route("/api/v1/users/create")] //sempre versionar rotas
         public async Task<IActionResult> Create ([FromBody] CreateUserViewModel userViewModel)
         {
@@ -35,7 +35,7 @@ namespace UserManager.Api.Controllers
                 var userCreated = await _userService.Create(userDTO); // service só vai ler os dtos, por isso o mapper
 
                 return Ok(new ResultViewModel{
-                    Message = "User created sucessfully",
+                    Message = "User created successfully",
                     Sucess = true,
                     Data = userCreated
                 });
