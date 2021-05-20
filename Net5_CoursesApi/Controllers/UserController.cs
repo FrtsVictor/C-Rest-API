@@ -1,3 +1,5 @@
+using System.Linq;
+using Courses.Filters;
 using Courses.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,7 +15,7 @@ namespace Courses.Controllers
         [SwaggerResponse(statusCode: 200, description: "Authenticated!", Type = typeof(LoginViewModelInput))]
         [SwaggerResponse(statusCode: 400, description: "Invalid fields.", Type = typeof(ValidateFields))]
         [SwaggerResponse(statusCode: 500, description: "Internal server error.", Type = typeof(GenericError))]
-
+        [CustomValidateModelState]
         public IActionResult Login(LoginViewModelInput loginViewModelInput)
         {
             return Ok(loginViewModelInput);
@@ -25,7 +27,6 @@ namespace Courses.Controllers
         {
             return Created("", loginViewModelInput);
         }
-
 
     }
 }
