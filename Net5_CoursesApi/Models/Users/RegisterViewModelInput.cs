@@ -13,7 +13,5 @@ namespace Courses.Models.Users
         [Required(ErrorMessage = "Email needed to register")]   
         public string Email { get; set; }
         
-                
-        
     }
 }
