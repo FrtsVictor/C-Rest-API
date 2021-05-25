@@ -20,9 +20,8 @@ namespace Infra.Repositories
         public virtual async Task<T> Create(T obj)
         {
             _context.Add(obj);
-            //context ja cria e retorna a entidade com id, retornar ela no obj
             await _context.SaveChangesAsync();
-
+            
             return obj;
         }
 
